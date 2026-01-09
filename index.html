@@ -1,7 +1,10 @@
+import { useState } from "react";
 import vector from "./vector.svg";
-import addIcon from "./add-icon.svg"; // сюда помести свой крестик
+import addIcon from "./add-icon.svg"; // твой крестик
 
 export const IphoneProMax = () => {
+  const [isPressed, setIsPressed] = useState(false);
+
   return (
     <div className="bg-black overflow-hidden w-full min-w-[440px] h-[718px] relative">
       {/* Градиенты */}
@@ -24,11 +27,23 @@ export const IphoneProMax = () => {
         Save this moment
       </div>
 
-      {/* Крестик для добавления фото */}
+      {/* Крестик для добавления фото с реактивностью */}
       <img
-        className="absolute top-[350px] left-[54px] w-[39px] h-[39px] p-[8px] cursor-pointer"
+        className={`
+          absolute top-[350px] left-[54px] w-[39px] h-[39px] p-[8px] cursor-pointer
+          transition-transform duration-100 ease-in-out
+          ${isPressed ? "scale-90" : "scale-100"}
+          hover:brightness-125
+        `}
         src={addIcon}
         alt="Add photo"
+        onMouseDown={() => setIsPressed(true)}
+        onMouseUp={() => setIsPressed(false)}
+        onMouseLeave={() => setIsPressed(false)}
+        onClick={() => {
+          console.log("Добавление фото"); 
+          // Здесь можешь открыть модальное окно выбора фото
+        }}
       />
 
       {/* Иконка vector */}
