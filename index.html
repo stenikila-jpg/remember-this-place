@@ -1,207 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Remember</title>
+
+<style>
 * {
   box-sizing: border-box;
+  font-family: Mulish, Arial, sans-serif;
 }
+
 body {
-  font-size: 14px;
+  margin: 0;
+  background: #000;
 }
-.v2603_2 {
-  width: 693px;
-  height: 887px;
-  background: rgba(0,0,0,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
+
+/* === APP === */
+.app {
+  width: 440px;
+  height: 718px;
+  position: relative;
   overflow: hidden;
+
+  /* ГРАДИЕНТ КАК ФОН (повторяет твою картинку) */
+  background:
+    radial-gradient(120% 120% at 10% 10%, #1a2a4a 0%, transparent 60%),
+    radial-gradient(120% 120% at 90% 20%, #1e5a4f 0%, transparent 60%),
+    radial-gradient(120% 120% at 50% 90%, #0d1f2d 0%, #000 70%);
 }
-.v2617_26 {
-  width: 100%;
-  height: 2249px;
-  background: url("../images/v2617_26.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  opacity: 1;
+
+/* === TOP LEFT ICON === */
+.top-left-btn {
   position: absolute;
-  top: 527px;
-  left: 594px;
-  overflow: hidden;
+  top: 18px;
+  left: 18px;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
 }
-.v2606_6 {
-  width: 100%;
-  height: 100%;
-  background: none;
-  opacity: 1;
+
+/* === LOGO === */
+.logo {
   position: absolute;
-  top: 795px;
-  left: 0px;
-  transform: rotate(-29deg);
-  overflow: hidden;
+  top: 18px;
+  right: 18px;
 }
-.v2606_2 {
-  width: 100%;
-  height: 100%;
-  background: none;
-  opacity: 1;
+
+/* === TITLE === */
+.title {
   position: absolute;
-  top: 1104px;
-  left: 583px;
-  overflow: hidden;
-}
-.name {
+  top: 260px;
+  left: 66px;
+  font-size: 58px;
+  font-weight: 700;
   color: #fff;
 }
-.v2601_303 {
-  width: 326px;
-  color: rgba(255,255,255,1);
+
+/* === ADD ROW === */
+.add-row {
   position: absolute;
-  top: 286px;
-  left: 184px;
-  font-family: Mulish;
-  font-weight: Bold;
-  font-size: 40px;
-  opacity: 1;
+  top: 370px;
+  left: 58px;
+  display: flex;
+  gap: 10px;
+}
+
+/* === PLUS BUTTON === */
+.add-photo {
+  width: 39px;
+  height: 39px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.add-photo svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* === INPUT === */
+.memory-input {
+  width: 230px;
+  height: 39px;
+  border-radius: 37px;
+  border: none;
+  padding: 0 14px;
+  background: rgba(255,255,255,0.25);
+  color: white;
+  outline: none;
+}
+
+.memory-input::placeholder {
+  color: rgba(255,255,255,0.7);
+}
+
+/* === PHOTO STATUS === */
+.photo-status {
+  position: absolute;
+  top: 415px;
+  width: 100%;
   text-align: center;
-}
-.name {
-  color: #fff;
-}
-.name {
-  color: #fff;
-}
-.v2615_2 {
-  width: 67px;
-  height: 30px;
-  background: url("../images/v2615_2.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  opacity: 1;
-  position: absolute;
-  top: 93px;
-  left: 476px;
-  overflow: hidden;
-}
-.v2615_3 {
-  width: 65px;
-  height: 28px;
-  background: rgba(255,255,255,0);
-  opacity: 1;
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  border-top-left-radius: 193px;
-  border-top-right-radius: 193px;
-  border-bottom-left-radius: 193px;
-  border-bottom-right-radius: 193px;
-  overflow: hidden;
-}
-.v2615_4 {
-  width: 65px;
-  height: 28px;
-  background: url("../images/v2615_4.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  overflow: hidden;
-}
-.v2615_5 {
-  width: 33px;
-  height: 28px;
-  background: rgba(255,255,255,0.25999999046325684);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
-.v2615_6 {
-  width: 40px;
-  height: 28px;
-  background: rgba(255,255,255,0.25999999046325684);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 24px;
-}
-.v2615_7 {
-  width: 0px;
-  height: 3px;
-  background: rgba(255,255,255,0.25999999046325684);
-  opacity: 1;
-  position: absolute;
-  top: 8px;
-  left: 24px;
-}
-.v2615_8 {
-  width: 65px;
-  height: 28px;
-  background: rgba(255,255,255,0);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-top-left-radius: 193px;
-  border-top-right-radius: 193px;
-  border-bottom-left-radius: 193px;
-  border-bottom-right-radius: 193px;
-  overflow: hidden;
-}
-.v2615_9 {
-  width: 65px;
-  height: 28px;
-  background: url("../images/v2615_9.png");
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  overflow: hidden;
-}
-.v2615_10 {
-  width: 33px;
-  height: 28px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-}
-.v2615_11 {
-  width: 40px;
-  height: 28px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 0px;
-  left: 24px;
-}
-.v2615_12 {
-  width: 0px;
-  height: 3px;
-  background: rgba(255,255,255,1);
-  opacity: 1;
-  position: absolute;
-  top: 8px;
-  left: 24px;
-}
-.name {
-  color: #fff;
-}
-.v2601_315 {
-  width: 491px;
-  color: rgba(255,255,255,1);
-  position: absolute;
-  top: 628px;
-  left: 101px;
-  font-family: Mulish;
-  font-weight: Light;
+  color: white;
   font-size: 13px;
-  opacity: 1;
-  text-align: center;
 }
+
+/* === SAVE BUTTON === */
+.save-btn {
+  position: absolute;
+  top: 450px;
+  left: 145px;
+  width: 158px;
+  height: 30px;
+  border-radius: 37px;
+  background: rgba(217,217,217,0.55);
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* === TOAST === */
+.toast {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 253px;
+  height: 33px;
+  display: none;
+}
+
+.toast-bg {
+  width: 100%;
+  height: 100%;
+  background: rgba(217,217,217,0.4);
+  border-radius: 85px;
+}
+
+.toast-text {
+  position: absolute;
+  top: 7px;
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+  color: white;
+}
+
+/* === FOOTER === */
+.footer-text {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 11px;
+  letter-spacing: 1.6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- TOP LEFT ICON -->
+  <div class="top-left-btn" onclick="goNext()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </div>
+
+  <!-- LOGO -->
+  <div class="logo">
+    <svg width="65" height="28">
+      <rect width="65" height="28" rx="14" fill="rgba(255,255,255,0.25)"/>
+      <text x="50%" y="65%" text-anchor="middle" fill="white" font-size="10">
+        LOGO
+      </text>
+    </svg>
+  </div>
+
+  <div class="title">REMEMBER</div>
+
+  <div class="add-row">
+    <label class="add-photo">
+      <input type="file" accept="image/*" hidden onchange="photoAdded()">
+      <svg viewBox="0 0 24 24" stroke="white" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+    </label>
+
+    <input class="memory-input" placeholder="Название воспоминания">
+  </div>
+
+  <div id="photoStatus" class="photo-status"></div>
+
+  <button class="save-btn" onclick="saveMoment()">Save this moment</button>
+
+  <div id="toast" class="toast">
+    <div class="toast-bg"></div>
+    <div class="toast-text">Ваше воспоминание сохранено</div>
+  </div>
+
+  <div class="footer-text">
+    save places and moments from real life
+  </div>
+
+</div>
+
+<script>
+function photoAdded() {
+  document.getElementById("photoStatus").innerText = "Фото добавлено";
+}
+
+function saveMoment() {
+  const toast = document.getElementById("toast");
+  toast.style.display = "block";
+  setTimeout(() => toast.style.display = "none", 2000);
+}
+
+function goNext() {
+  alert("Следующая страница");
+}
+</script>
+
+</body>
+</html>
