@@ -1,153 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Remember</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+import vector from "./vector.svg";
+import addIcon from "./add-icon.svg"; // сюда помести свой крестик
 
-  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
+export const IphoneProMax = () => {
+  return (
+    <div className="bg-black overflow-hidden w-full min-w-[440px] h-[718px] relative">
+      {/* Градиенты */}
+      <div className="absolute top-[29px] left-[-784px] w-[1596px] h-[1145px] [background:radial-gradient(50%_50%_at_50%_50%,rgba(0,101,22,1)_0%,rgba(0,0,0,0)_100%),radial-gradient(50%_50%_at_55%_40%,rgba(4,0,134,1)_0%,rgba(0,0,0,0)_100%)]" />
+      <div className="absolute top-[-376px] left-[-415px] w-[1596px] h-[1145px] rotate-[-29.88deg] [background:radial-gradient(50%_50%_at_50%_50%,rgba(0,101,22,0.54)_0%,rgba(0,0,0,0)_100%),radial-gradient(50%_50%_at_55%_40%,rgba(4,0,134,1)_0%,rgba(0,0,0,0)_100%)]" />
 
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Mulish', sans-serif;
-    }
+      {/* Текст */}
+      <div className="absolute top-[264px] left-[66px] font-bold text-white text-[58px] tracking-[0] leading-[normal]">
+        REMEMBER
+      </div>
+      <p className="absolute top-[683px] left-[-22px] w-[491px] font-light text-white text-[13px] text-center tracking-[1.95px] leading-[normal]">
+        save places and moments from real life
+      </p>
 
-    .screen {
-      position: relative;
-      width: 100%;
-      max-width: 440px;
-      height: 718px;
-      margin: 0 auto;
-      overflow: hidden;
-    }
+      {/* Кнопки */}
+      <div className="absolute top-[350px] left-[100px] w-[283px] h-[39px] bg-[#ffffff2e] rounded-[37px]" />
+      <div className="absolute top-[350px] left-[54px] w-[39px] h-[39px] bg-[#ffffff2e] rounded-[19.5px]" />
+      <div className="absolute top-[429px] left-[141px] w-[158px] h-[30px] bg-[#d9d9d987] rounded-[37px]" />
+      <div className="absolute top-[435px] left-[163px] font-light text-white text-sm tracking-[0] leading-[normal]">
+        Save this moment
+      </div>
 
-    /* Фон */
-    .bg {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      width: 440px;
-      height: 718px;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-    }
+      {/* Крестик для добавления фото */}
+      <img
+        className="absolute top-[350px] left-[54px] w-[39px] h-[39px] p-[8px] cursor-pointer"
+        src={addIcon}
+        alt="Add photo"
+      />
 
-    .title {
-      position: absolute;
-      top: 272px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 58px;
-      font-weight: 700;
-      color: white;
-    }
-
-    .subtitle {
-      position: absolute;
-      bottom: 12px;
-      width: 100%;
-      font-size: 11px;
-      letter-spacing: 1.65px;
-      text-align: center;
-      color: white;
-      font-weight: 300;
-    }
-
-    .input-row {
-      position: absolute;
-      top: 372px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .photo-btn {
-      width: 39px;
-      height: 39px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.18);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-    }
-
-    .photo-btn img {
-      width: 14px;
-      height: 14px;
-    }
-
-    .text-input {
-      width: 230px;
-      height: 39px;
-      background: rgba(217,217,217,0.53);
-      border-radius: 37px;
-      border: none;
-      padding: 0 14px;
-      color: white;
-      font-size: 14px;
-      outline: none;
-    }
-
-    .save-btn {
-      position: absolute;
-      top: 451px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 158px;
-      height: 30px;
-      background: rgba(217,217,217,0.53);
-      border-radius: 37px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 14px;
-      color: white;
-      cursor: pointer;
-    }
-
-    input[type="file"] {
-      display: none;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="screen">
-
-    <!-- ФОН -->
-    <img class="bg" src="image-6.png" alt="Background" />
-
-    <div class="title">REMEMBER</div>
-
-    <!-- INPUT ROW -->
-    <div class="input-row">
-      <label class="photo-btn">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Plus_symbol.svg">
-        <input type="file" id="photo" accept="image/*">
-      </label>
-
-      <input
-        id="text"
-        class="text-input"
-        placeholder="Memory title"
+      {/* Иконка vector */}
+      <img
+        className="absolute w-[3.64%] h-[2.23%] top-[50.42%] left-[15.00%]"
+        alt="Vector"
+        src={vector}
       />
     </div>
-
-    <div class="save-btn" onclick="saveMoment()">Save this moment</div>
-
-    <div class="subtitle">
-      save places and moments from real life
-    </div>
-
-  </div>
-
-<script>
-  const tg = window.Telegram.WebApp;
-  tg.expand();
-
-  let moments = JSON.parse(localStorage.getItem('moments') || '[]');
+  );
+};
