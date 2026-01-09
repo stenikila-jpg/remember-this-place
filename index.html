@@ -1,57 +1,38 @@
-import { useState } from "react";
+import image6 from "./image-6.png";
 import vector from "./vector.svg";
-import addIcon from "./add-icon.svg"; // твой крестик
 
 export const IphoneProMax = () => {
-  const [isPressed, setIsPressed] = useState(false);
-
   return (
     <div className="bg-black overflow-hidden w-full min-w-[440px] h-[718px] relative">
-      {/* Градиенты */}
-      <div className="absolute top-[29px] left-[-784px] w-[1596px] h-[1145px] [background:radial-gradient(50%_50%_at_50%_50%,rgba(0,101,22,1)_0%,rgba(0,0,0,0)_100%),radial-gradient(50%_50%_at_55%_40%,rgba(4,0,134,1)_0%,rgba(0,0,0,0)_100%)]" />
-      <div className="absolute top-[-376px] left-[-415px] w-[1596px] h-[1145px] rotate-[-29.88deg] [background:radial-gradient(50%_50%_at_50%_50%,rgba(0,101,22,0.54)_0%,rgba(0,0,0,0)_100%),radial-gradient(50%_50%_at_55%_40%,rgba(4,0,134,1)_0%,rgba(0,0,0,0)_100%)]" />
+      <img
+        className="absolute top-[calc(50.00%_-_359px)] left-[calc(50.00%_-_220px)] w-[440px] h-[718px] aspect-[0.84]"
+        alt="Image"
+        src={image6}
+      />
 
-      {/* Текст */}
-      <div className="absolute top-[264px] left-[66px] font-bold text-white text-[58px] tracking-[0] leading-[normal]">
+      <div className="top-[372px] left-[104px] w-[283px] h-[39px] bg-[#ffffff2e] absolute rounded-[37px]" />
+
+      <div className="absolute top-[272px] left-[61px] [font-family:'Mulish-Bold',Helvetica] font-bold text-white text-[58px] tracking-[0] leading-[normal]">
         REMEMBER
       </div>
-      <p className="absolute top-[683px] left-[-22px] w-[491px] font-light text-white text-[13px] text-center tracking-[1.95px] leading-[normal]">
+
+      <p className="absolute top-[678px] -left-8 w-[491px] [font-family:'Mulish-Light',Helvetica] font-light text-white text-[11px] text-center tracking-[1.65px] leading-[normal]">
         save places and moments from real life
       </p>
 
-      {/* Кнопки */}
-      <div className="absolute top-[350px] left-[100px] w-[283px] h-[39px] bg-[#ffffff2e] rounded-[37px]" />
-      <div className="absolute top-[350px] left-[54px] w-[39px] h-[39px] bg-[#ffffff2e] rounded-[19.5px]" />
-      <div className="absolute top-[429px] left-[141px] w-[158px] h-[30px] bg-[#d9d9d987] rounded-[37px]" />
-      <div className="absolute top-[435px] left-[163px] font-light text-white text-sm tracking-[0] leading-[normal]">
-        Save this moment
-      </div>
+      <div className="absolute top-[372px] left-[58px] w-[39px] h-[39px] bg-[#ffffff2e] rounded-[19.5px]" />
 
-      {/* Крестик для добавления фото с реактивностью */}
-      <img
-        className={`
-          absolute top-[350px] left-[54px] w-[39px] h-[39px] p-[8px] cursor-pointer
-          transition-transform duration-100 ease-in-out
-          ${isPressed ? "scale-90" : "scale-100"}
-          hover:brightness-125
-        `}
-        src={addIcon}
-        alt="Add photo"
-        onMouseDown={() => setIsPressed(true)}
-        onMouseUp={() => setIsPressed(false)}
-        onMouseLeave={() => setIsPressed(false)}
-        onClick={() => {
-          console.log("Добавление фото"); 
-          // Здесь можешь открыть модальное окно выбора фото
-        }}
-      />
+      <div className="top-[451px] left-[145px] w-[158px] h-[30px] bg-[#d9d9d987] absolute rounded-[37px]" />
 
-      {/* Иконка vector */}
       <img
-        className="absolute w-[3.64%] h-[2.23%] top-[50.42%] left-[15.00%]"
+        className="absolute w-[3.64%] h-[2.23%] top-[53.48%] left-[15.91%]"
         alt="Vector"
         src={vector}
       />
+
+      <div className="absolute top-[457px] left-[167px] [font-family:'Mulish-Light',Helvetica] font-light text-white text-sm tracking-[0] leading-[normal]">
+        Save this moment
+      </div>
     </div>
   );
 };
