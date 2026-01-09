@@ -2,43 +2,124 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Remember This Place</title>
+  <title>Remember</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
   <style>
+    :root {
+      --bg: #f2f3f7;
+      --card: #ffffff;
+      --accent: #4f7cff;
+      --text: #1c1c1e;
+      --sub: #6e6e73;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background: #f7f7f7;
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
       padding: 16px;
     }
-    h1 {
-      font-size: 20px;
+
+    header {
+      margin-bottom: 16px;
     }
+
+    header h1 {
+      font-size: 22px;
+      margin: 0;
+    }
+
+    header p {
+      margin: 4px 0 0;
+      color: var(--sub);
+      font-size: 14px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      margin-bottom: 16px;
+    }
+
     textarea {
       width: 100%;
-      height: 80px;
-      margin-top: 12px;
+      border-radius: 12px;
+      border: 1px solid #e5e5ea;
+      padding: 12px;
+      font-size: 15px;
+      resize: none;
+      height: 70px;
     }
+
+    input[type="file"] {
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
     button {
       width: 100%;
-      padding: 14px;
       margin-top: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      background: var(--accent);
+      color: #fff;
       font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
     }
-    .item {
-      background: #fff;
-      padding: 10px;
-      margin-top: 8px;
-      border-radius: 8px;
+
+    .moment {
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    }
+
+    .moment img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+    }
+
+    .moment-content {
+      padding: 12px;
+    }
+
+    .moment-content strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .meta {
+      font-size: 13px;
+      color: var(--sub);
     }
   </style>
 </head>
 <body>
 
-<h1>🧠 Remember this moment</h1>
+<header>
+  <h1>🧠 Remember</h1>
+  <p>Save places and moments from real life</p>
+</header>
 
-<textarea id="text" placeholder="What was this place?"></textarea>
-<button onclick="saveMoment()">➕ Save this place</button>
+<div class="card">
+  <textarea id="text" placeholder="What was special about this place?"></textarea>
+  <input type="file" id="photo" accept="image/*">
+  <button onclick="saveMoment()">➕ Save this moment</button>
+</div>
 
 <div id="list"></div>
 
@@ -49,43 +130,62 @@
   let moments = JSON.parse(localStorage.getItem('moments') || '[]');
 
   function saveMoment() {
-    if (!navigator.geolocation) {
-      alert("Geolocation not supported");
+    const text = document.getElementById('text').value.trim();
+    const photoInput = document.getElementById('photo');
+
+    if (!text) {
+      alert("Write a short note");
       return;
     }
 
     navigator.geolocation.getCurrentPosition(pos => {
-      const text = document.getElementById('text').value;
-      if (!text) {
-        alert("Write something");
-        return;
-      }
+      const reader = new FileReader();
 
-      const moment = {
-        text,
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude,
-        date: new Date().toLocaleString()
+      reader.onload = () => {
+        const moment = {
+          text,
+          photo: reader.result || null,
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+          date: new Date().toLocaleDateString()
+        };
+
+        moments.unshift(moment);
+        localStorage.setItem('moments', JSON.stringify(moments));
+
+        document.getElementById('text').value = '';
+        document.getElementById('photo').value = '';
+
+        render();
       };
 
-      moments.unshift(moment);
-      localStorage.setItem('moments', JSON.stringify(moments));
-      document.getElementById('text').value = '';
-      render();
+      if (photoInput.files[0]) {
+        reader.readAsDataURL(photoInput.files[0]);
+      } else {
+        reader.onload();
+      }
     });
   }
 
   function render() {
     const list = document.getElementById('list');
     list.innerHTML = '';
+
     moments.forEach(m => {
       const div = document.createElement('div');
-      div.className = 'item';
-      div.innerHTML = `
-        <strong>${m.text}</strong><br>
-        📍 ${m.lat.toFixed(4)}, ${m.lng.toFixed(4)}<br>
-        🕒 ${m.date}
+      div.className = 'moment';
+
+      if (m.photo) {
+        div.innerHTML += <img src="${m.photo}">;
+      }
+
+      div.innerHTML += `
+        <div class="moment-content">
+          <strong>${m.text}</strong>
+          <div class="meta">📍 ${m.lat.toFixed(3)}, ${m.lng.toFixed(3)} · ${m.date}</div>
+        </div>
       `;
+
       list.appendChild(div);
     });
   }
