@@ -15,37 +15,38 @@ body {
   background: #000;
 }
 
-/* === ОСНОВНОЙ КОНТЕЙНЕР === */
+/* === APP === */
 .app {
   width: 440px;
   height: 718px;
   position: relative;
-  background: url("background.jpg") center / cover no-repeat;
   overflow: hidden;
+
+  /* ГРАДИЕНТ КАК ФОН (повторяет твою картинку) */
+  background:
+    radial-gradient(120% 120% at 10% 10%, #1a2a4a 0%, transparent 60%),
+    radial-gradient(120% 120% at 90% 20%, #1e5a4f 0%, transparent 60%),
+    radial-gradient(120% 120% at 50% 90%, #0d1f2d 0%, #000 70%);
 }
 
-/* === ЛЕВАЯ ВЕРХНЯЯ КНОПКА === */
+/* === TOP LEFT ICON === */
 .top-left-btn {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 26px;
-  height: 26px;
-  background: url("menu-icon.svg") center / contain no-repeat;
+  top: 18px;
+  left: 18px;
+  width: 28px;
+  height: 28px;
   cursor: pointer;
 }
 
-/* === ЛОГОТИП СПРАВА === */
+/* === LOGO === */
 .logo {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 65px;
-  height: 28px;
-  background: url("logo.png") center / contain no-repeat;
+  top: 18px;
+  right: 18px;
 }
 
-/* === ЗАГОЛОВОК === */
+/* === TITLE === */
 .title {
   position: absolute;
   top: 260px;
@@ -55,17 +56,16 @@ body {
   color: #fff;
 }
 
-/* === БЛОК ДОБАВЛЕНИЯ === */
+/* === ADD ROW === */
 .add-row {
   position: absolute;
   top: 370px;
   left: 58px;
   display: flex;
-  align-items: center;
   gap: 10px;
 }
 
-/* === КРУГ С КРЕСТИКОМ === */
+/* === PLUS BUTTON === */
 .add-photo {
   width: 39px;
   height: 39px;
@@ -74,12 +74,15 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 22px;
   cursor: pointer;
 }
 
-/* === ПОЛЕ ВВОДА === */
+.add-photo svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* === INPUT === */
 .memory-input {
   width: 230px;
   height: 39px;
@@ -95,7 +98,7 @@ body {
   color: rgba(255,255,255,0.7);
 }
 
-/* === СТАТУС ФОТО === */
+/* === PHOTO STATUS === */
 .photo-status {
   position: absolute;
   top: 415px;
@@ -105,7 +108,7 @@ body {
   font-size: 13px;
 }
 
-/* === КНОПКА СОХРАНЕНИЯ === */
+/* === SAVE BUTTON === */
 .save-btn {
   position: absolute;
   top: 450px;
@@ -119,7 +122,7 @@ body {
   cursor: pointer;
 }
 
-/* === TOAST / УВЕДОМЛЕНИЕ === */
+/* === TOAST === */
 .toast {
   position: absolute;
   top: 50%;
@@ -146,7 +149,7 @@ body {
   color: white;
 }
 
-/* === НИЖНИЙ ТЕКСТ === */
+/* === FOOTER === */
 .footer-text {
   position: absolute;
   bottom: 15px;
@@ -163,16 +166,36 @@ body {
 
 <div class="app">
 
-  <div class="top-left-btn" onclick="goNext()"></div>
-  <div class="logo"></div>
+  <!-- TOP LEFT ICON -->
+  <div class="top-left-btn" onclick="goNext()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/>
+      <line x1="3" y1="12" x2="21" y2="12"/>
+      <line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </div>
+
+  <!-- LOGO -->
+  <div class="logo">
+    <svg width="65" height="28">
+      <rect width="65" height="28" rx="14" fill="rgba(255,255,255,0.25)"/>
+      <text x="50%" y="65%" text-anchor="middle" fill="white" font-size="10">
+        LOGO
+      </text>
+    </svg>
+  </div>
 
   <div class="title">REMEMBER</div>
 
   <div class="add-row">
     <label class="add-photo">
       <input type="file" accept="image/*" hidden onchange="photoAdded()">
-      +
+      <svg viewBox="0 0 24 24" stroke="white" stroke-width="2">
+        <line x1="12" y1="5" x2="12" y2="19"/>
+        <line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
     </label>
+
     <input class="memory-input" placeholder="Название воспоминания">
   </div>
 
@@ -203,7 +226,7 @@ function saveMoment() {
 }
 
 function goNext() {
-  alert("Переход на следующую страницу");
+  alert("Следующая страница");
 }
 </script>
 
