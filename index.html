@@ -3,211 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <title>Remember</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
-  <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
-
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Mulish, sans-serif;
-      background: black;
-    }
-
-    .app {
-      width: 440px;
-      height: 718px;
-      position: relative;
-      margin: 0 auto;
-      background: black;
-      color: white;
-      overflow: hidden;
-    }
-
-    .title {
-      position: absolute;
-      top: 264px;
-      left: 66px;
-      font-size: 58px;
-      font-weight: 700;
-    }
-
-    .subtitle {
-      position: absolute;
-      top: 683px;
-      left: 22px;
-      width: 396px;
-      font-size: 13px;
-      font-weight: 300;
-      text-align: center;
-      letter-spacing: 1.6px;
-    }
-
-    /* верхняя левая кнопка */
-    .nav-btn {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.2);
-      cursor: pointer;
-    }
-
-    /* строка ввода */
-    .input-row {
-      position: absolute;
-      top: 372px;
-      left: 58px;
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .add-photo {
-      width: 39px;
-      height: 39px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.18);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 22px;
-    }
-
-    .photo-status {
-      position: absolute;
-      top: 415px;
-      left: 58px;
-      font-size: 12px;
-      font-weight: 300;
-      opacity: 0;
-      transition: 0.3s;
-    }
-
-    .photo-status.show {
-      opacity: 1;
-    }
-
-    .text-input {
-      width: 236px;
-      height: 39px;
-      border-radius: 37px;
-      border: none;
-      padding: 0 14px;
-      font-size: 14px;
-      outline: none;
-      background: rgba(255,255,255,0.18);
-      color: white;
-    }
-
-    .save-btn {
-      position: absolute;
-      top: 451px;
-      left: 141px;
-      width: 158px;
-      height: 30px;
-      border-radius: 37px;
-      background: rgba(217,217,217,0.53);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 14px;
-      cursor: pointer;
-    }
-
-    /* уведомление */
-    .toast {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0,0,0,0.85);
-      padding: 16px 20px;
-      border-radius: 16px;
-      font-size: 14px;
-      display: none;
-    }
-
-    input[type="file"] { display: none; }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
+
 <div class="app">
 
-  <div class="nav-btn" onclick="goNext()"></div>
+  <!-- Левая верхняя кнопка -->
+  <div class="top-left-btn" onclick="goNext()"></div>
+
+  <!-- Логотип справа -->
+  <div class="logo v2615_2">
+    <div class="v2615_3"></div>
+    <div class="v2615_4"></div>
+    <div class="v2615_5"></div>
+    <div class="v2615_6"></div>
+  </div>
 
   <div class="title">REMEMBER</div>
 
-  <div class="input-row">
+  <!-- Блок добавления -->
+  <div class="add-row">
     <label class="add-photo">
-      +
-      <input type="file" id="photo" accept="image/*">
+      <input type="file" accept="image/*" onchange="photoAdded()" hidden />
+      <span>+</span>
     </label>
 
-    <input class="text-input" id="text" placeholder="Memory name">
+    <input class="memory-input" placeholder="Название воспоминания" />
   </div>
 
-  <div class="photo-status" id="photoStatus">
-    фото добавлено
+  <div id="photo-status" class="photo-status"></div>
+
+  <button class="save-btn" onclick="saveMoment()">Save this moment</button>
+
+  <!-- Уведомление -->
+  <div id="toast" class="toast v2617_30">
+    <div class="v2617_28"></div>
+    <div class="v2617_29">Ваше воспоминание сохранено</div>
   </div>
 
-  <div class="save-btn" onclick="saveMoment()">
-    Save this moment
-  </div>
-
-  <div class="subtitle">
-    save places and moments from real life
-  </div>
-
-  <div class="toast" id="toast">
-    Ваше воспоминание сохранено
-  </div>
+  <div class="footer-text">save places and moments from real life</div>
 
 </div>
 
-<script>
-  const tg = window.Telegram.WebApp;
-  tg.expand();
-
-  const photoInput = document.getElementById('photo');
-  const photoStatus = document.getElementById('photoStatus');
-  const toast = document.getElementById('toast');
-
-  photoInput.addEventListener('change', () => {
-    if (photoInput.files.length > 0) {
-      photoStatus.classList.add('show');
-    }
-  });
-
-  function saveMoment() {
-    const text = document.getElementById('text').value.trim();
-
-    if (!text) {
-      alert('Введите название');
-      return;
-    }
-
-    toast.style.display = 'block';
-
-    setTimeout(() => {
-      toast.style.display = 'none';
-    }, 2000);
-getElementById('text').value = '';
-    photoInput.value = '';
-    photoStatus.classList.remove('show');
-  }
-
-  function goNext() {
-    console.log('Переход на следующую страницу');
-  }
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
-    document.
