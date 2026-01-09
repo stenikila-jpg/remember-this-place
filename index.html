@@ -11,7 +11,6 @@
   <style>
     body {
       margin: 0;
-      background: black;
       font-family: 'Mulish', sans-serif;
     }
 
@@ -22,15 +21,17 @@
       height: 718px;
       margin: 0 auto;
       overflow: hidden;
-      background: black;
     }
 
+    /* Фон */
     .bg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 440px;
+      height: 718px;
+      transform: translate(-50%, -50%);
       object-fit: cover;
-      opacity: 0.85;
     }
 
     .title {
@@ -83,7 +84,7 @@
     .text-input {
       width: 230px;
       height: 39px;
-      background: rgba(255,255,255,0.18);
+      background: rgba(217,217,217,0.53);
       border-radius: 37px;
       border: none;
       padding: 0 14px;
@@ -118,8 +119,8 @@
 <body>
   <div class="screen">
 
-    <!-- BACKGROUND IMAGE -->
-    <img class="bg" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" />
+    <!-- ФОН -->
+    <img class="bg" src="image-6.png" alt="Background" />
 
     <div class="title">REMEMBER</div>
 
@@ -150,38 +151,3 @@
   tg.expand();
 
   let moments = JSON.parse(localStorage.getItem('moments') || '[]');
-
-  function saveMoment() {
-    const text = document.getElementById('text').value.trim();
-    const photoInput = document.getElementById('photo');
-
-    if (!text) {
-      alert("Enter memory title");
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(pos => {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        const moment = {
-          text,
-          photo: reader.result || null,
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude,
-          date: new Date().toLocaleString()
-        };
-
-        moments.unshift(moment);
-        localStorage.setItem('moments', JSON.stringify(moments));
-
-        document.getElementById('text').value = '';
-        document.getElementById('photo').value = '';
-
-        alert("Saved ✨");
-      };
-
-      if (photoInput.files[0]) {
-        reader.readAsDataURL(photoInput.files[0]);
-      } else {
-        reader.
