@@ -6,147 +6,142 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-  <!-- Google Font вместо Mulish -->
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;700&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --bg: #ffffff;
-      --soft: rgba(228, 228, 228, 0.63);
-      --text: #000000;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
     body {
       margin: 0;
+      background: black;
       font-family: 'Mulish', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
     }
 
-    .app {
+    .screen {
+      position: relative;
       width: 100%;
-      max-width: 420px;
-      min-height: 100vh;
-      padding: 32px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      max-width: 440px;
+      height: 718px;
+      margin: 0 auto;
+      overflow: hidden;
+      background: black;
     }
 
-    h1 {
+    .bg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+
+    .title {
+      position: absolute;
+      top: 272px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 58px;
       font-weight: 700;
-      font-size: 42px;
-      margin-top: 40px;
-      margin-bottom: 24px;
-      letter-spacing: 1px;
-    }
-
-    .input-card {
-      width: 100%;
-      background: var(--soft);
-      border-radius: 24px;
-      padding: 16px;
-      margin-bottom: 24px;
-    }
-
-    textarea {
-      width: 100%;
-      border: none;
-      background: transparent;
-      resize: none;
-      font-size: 15px;
-      outline: none;
-      height: 60px;
-      font-family: 'Mulish', sans-serif;
+      color: white;
     }
 
     .subtitle {
-      font-weight: 300;
-      font-size: 14px;
-      letter-spacing: 3px;
+      position: absolute;
+      bottom: 12px;
+      width: 100%;
+      font-size: 11px;
+      letter-spacing: 1.65px;
       text-align: center;
-      margin-bottom: 40px;
+      color: white;
+      font-weight: 300;
     }
 
-    .actions {
-      width: 100%;
+    .input-row {
+      position: absolute;
+      top: 372px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 32px;
+      gap: 8px;
+      align-items: center;
     }
 
-    input[type="file"] {
-      font-size: 13px;
-    }
-
-    button {
-      width: 100%;
-      padding: 14px;
-      border-radius: 16px;
-      border: none;
-      background: #000;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
+    .photo-btn {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
     }
 
-    .moment {
-      width: 100%;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-      margin-bottom: 16px;
-      overflow: hidden;
+    .photo-btn img {
+      width: 14px;
+      height: 14px;
     }
 
-    .moment img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-    }
-
-    .moment-content {
-      padding: 14px;
-    }
-
-    .moment-content strong {
-      display: block;
+    .text-input {
+      width: 230px;
+      height: 39px;
+      background: rgba(255,255,255,0.18);
+      border-radius: 37px;
+      border: none;
+      padding: 0 14px;
+      color: white;
       font-size: 14px;
-      margin-bottom: 6px;
+      outline: none;
     }
 
-    .meta {
-      font-size: 12px;
-      opacity: 0.6;
+    .save-btn {
+      position: absolute;
+      top: 451px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 158px;
+      height: 30px;
+      background: rgba(217,217,217,0.53);
+      border-radius: 37px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      color: white;
+      cursor: pointer;
+    }
+
+    input[type="file"] {
+      display: none;
     }
   </style>
 </head>
 
 <body>
-  <div class="app">
+  <div class="screen">
 
-    <h1>REMEMBER</h1>
+    <!-- BACKGROUND IMAGE -->
+    <img class="bg" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee" />
 
-    <div class="input-card">
-      <textarea id="text" placeholder="What was special about this place?"></textarea>
+    <div class="title">REMEMBER</div>
+
+    <!-- INPUT ROW -->
+    <div class="input-row">
+      <label class="photo-btn">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/3b/Plus_symbol.svg">
+        <input type="file" id="photo" accept="image/*">
+      </label>
+
+      <input
+        id="text"
+        class="text-input"
+        placeholder="Memory title"
+      />
     </div>
 
-    <p class="subtitle">SAVE PLACES AND MOMENTS FROM REAL LIFE</p>
+    <div class="save-btn" onclick="saveMoment()">Save this moment</div>
 
-    <div class="actions">
-      <input type="file" id="photo" accept="image/*">
-      <button onclick="saveMoment()">SAVE THIS MOMENT</button>
+    <div class="subtitle">
+      save places and moments from real life
     </div>
-
-    <div id="list"></div>
 
   </div>
 
@@ -161,7 +156,7 @@
     const photoInput = document.getElementById('photo');
 
     if (!text) {
-      alert("Write something");
+      alert("Enter memory title");
       return;
     }
 
@@ -174,7 +169,7 @@
           photo: reader.result || null,
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
-          date: new Date().toLocaleDateString()
+          date: new Date().toLocaleString()
         };
 
         moments.unshift(moment);
@@ -183,13 +178,10 @@
         document.getElementById('text').value = '';
         document.getElementById('photo').value = '';
 
-        render();
+        alert("Saved ✨");
       };
 
       if (photoInput.files[0]) {
         reader.readAsDataURL(photoInput.files[0]);
       } else {
-        reader.onload();
-      }
-    });
-  }
+        reader.
