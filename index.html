@@ -1,343 +1,749 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Remember</title>
-
-<style>
-* {
-  box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
-  -webkit-tap-highlight-color: transparent;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  background: #000;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* === APP === */
-.app {
-  width: 100%;
-  max-width: 440px;
-  height: 100vh;
-  max-height: 718px;
-  position: relative;
-  overflow: hidden;
-  
-  /* ГРАДИЕНТ КАК ФОН (адаптивный) */
-  background:
-    radial-gradient(120% 120% at 10% 10%, #1a2a4a 0%, transparent 60%),
-    radial-gradient(120% 120% at 90% 20%, #1e5a4f 0%, transparent 60%),
-    radial-gradient(120% 120% at 50% 90%, #0d1f2d 0%, #000 70%);
-}
-
-/* === TOP LEFT ICON === */
-.top-left-btn {
-  position: absolute;
-  top: max(18px, 5vh);
-  left: max(18px, 5vw);
-  width: clamp(24px, 7vw, 32px);
-  height: clamp(24px, 7vw, 32px);
-  cursor: pointer;
-  z-index: 10;
-}
-
-/* === LOGO === */
-.logo {
-  position: absolute;
-  top: max(18px, 5vh);
-  right: max(18px, 5vw);
-  z-index: 10;
-}
-
-.logo svg {
-  width: clamp(55px, 15vw, 65px);
-  height: auto;
-}
-
-/* === TITLE === */
-.title {
-  position: absolute;
-  top: 35vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  text-align: center;
-  font-size: clamp(32px, 8vw, 58px);
-  font-weight: 700;
-  color: #fff;
-  margin: 0;
-  line-height: 1.1;
-}
-
-/* === ADD ROW === */
-.add-row {
-  position: absolute;
-  top: 52vh;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: clamp(8px, 2vw, 12px);
-  width: 85%;
-  max-width: 320px;
-}
-
-/* === PLUS BUTTON === */
-.add-photo {
-  width: clamp(35px, 10vw, 42px);
-  height: clamp(35px, 10vw, 42px);
-  min-width: 35px;
-  min-height: 35px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.add-photo svg {
-  width: clamp(12px, 3.5vw, 16px);
-  height: clamp(12px, 3.5vw, 16px);
-}
-
-/* === INPUT === */
-.memory-input {
-  flex: 1;
-  min-width: 0;
-  height: clamp(35px, 10vw, 42px);
-  border-radius: 37px;
-  border: none;
-  padding: 0 clamp(12px, 3vw, 16px);
-  background: rgba(255,255,255,0.25);
-  color: white;
-  outline: none;
-  font-size: clamp(14px, 3.5vw, 16px);
-}
-
-.memory-input::placeholder {
-  color: rgba(255,255,255,0.7);
-}
-
-/* === PHOTO STATUS === */
-.photo-status {
-  position: absolute;
-  top: 58vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  text-align: center;
-  color: white;
-  font-size: clamp(11px, 3vw, 13px);
-  padding: 0 5%;
-}
-
-/* === SAVE BUTTON === */
-.save-btn {
-  position: absolute;
-  top: 63vh;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(158px, 70%);
-  height: clamp(30px, 8vh, 36px);
-  border-radius: 37px;
-  background: rgba(217,217,217,0.55);
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-size: clamp(14px, 3.5vw, 16px);
-  font-weight: 500;
-}
-
-/* === TOAST === */
-.toast {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: min(253px, 80%);
-  height: clamp(33px, 8vh, 40px);
-  display: none;
-  z-index: 100;
-}
-
-.toast-bg {
-  width: 100%;
-  height: 100%;
-  background: rgba(217,217,217,0.4);
-  border-radius: 85px;
-}
-
-.toast-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 90%;
-  text-align: center;
-  font-size: clamp(12px, 3vw, 14px);
-  color: white;
-  margin: 0;
-}
-
-/* === FOOTER === */
-.footer-text {
-  position: absolute;
-  bottom: max(15px, 3vh);
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  text-align: center;
-  color: white;
-  font-size: clamp(9px, 2.5vw, 11px);
-  letter-spacing: 1.6px;
-  line-height: 1.4;
-  padding: 0 5%;
-}
-
-/* Адаптация для очень маленьких экранов */
-@media (max-height: 600px) {
-  .title {
-    top: 30vh;
-    font-size: clamp(28px, 6vw, 48px);
-  }
-  
-  .add-row {
-    top: 48vh;
-  }
-  
-  .photo-status {
-    top: 54vh;
-  }
-  
-  .save-btn {
-    top: 58vh;
-  }
-}
-
-/* Адаптация для очень широких экранов */
-@media (min-width: 768px) {
-  body {
-    background: #000;
-  }
-  
-  .app {
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-black: #000000;
+            --color-white: #FFFFFF;
+            --color-gray-light: #F5F5F5;
+            --color-gray: #E5E5E5;
+            --color-gray-dark: #8C8C8C;
+            --color-accent: #10B981; /* нежный зеленый */
+            --color-accent-dark: #0DA271;
+            --color-accent-blue: #3B82F6; /* альтернативный синий */
+            
+            --font-heading: 'Bebas Neue', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            
+            --transition-fast: 0.2s ease;
+            --transition-medium: 0.3s ease;
+            --transition-slow: 0.5s ease;
+            
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 32px;
+            --spacing-lg: 64px;
+            --spacing-xl: 96px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--color-black);
+            background-color: var(--color-white);
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background-color var(--transition-medium);
+        }
+        
+        .app-container {
+            max-width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Навигация */
+        .nav-indicator {
+            display: flex;
+            justify-content: center;
+            padding: var(--spacing-sm) var(--spacing-sm) var(--spacing-xs);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .nav-dots {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+        
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--color-gray);
+            transition: all var(--transition-fast);
+        }
+        
+        .nav-dot.active {
+            background-color: var(--color-accent);
+            transform: scale(1.2);
+        }
+        
+        /* Общие стили экранов */
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: var(--spacing-lg) var(--spacing-md);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity var(--transition-medium), transform var(--transition-medium);
+        }
+        
+        .screen.active {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        .section-title {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 2.8rem;
+                letter-spacing: 3px;
+            }
+        }
+        
+        .section-subtitle {
+            font-weight: 300;
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto var(--spacing-lg);
+            color: var(--color-gray-dark);
+        }
+        
+        /* Кнопки */
+        .btn {
+            font-family: var(--font-body);
+            font-weight: 400;
+            font-size: 1rem;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: 0;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn:active {
+            transform: translateY(2px);
+        }
+        
+        .btn-primary {
+            background-color: var(--color-accent);
+            color: var(--color-white);
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--color-accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(16, 185, 129, 0.15);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--color-black);
+            border: 1px solid var(--color-black);
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--color-black);
+            color: var(--color-white);
+            transform: translateY(-2px);
+        }
+        
+        /* Экран 1: Главный экран */
+        #screen-1 {
+            background-color: var(--color-white);
+        }
+        
+        .hero-headline {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 4.5rem;
+            letter-spacing: 6px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            line-height: 1;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-headline {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+        }
+        
+        .hero-subtitle {
+            font-weight: 300;
+            font-size: 1.3rem;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto var(--spacing-xl);
+            color: var(--color-gray-dark);
+        }
+        
+        .product-visualization {
+            width: 100%;
+            max-width: 400px;
+            height: 300px;
+            margin: 0 auto var(--spacing-xl);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .cube-container {
+            width: 180px;
+            height: 180px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(-20deg) rotateY(-20deg);
+            animation: rotateCube 20s infinite linear;
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border: 1px solid var(--color-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+        }
+        
+        .cube-face-front {
+            transform: translateZ(90px);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .cube-face-back {
+            transform: rotateY(180deg) translateZ(90px);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+        
+        .cube-face-right {
+            transform: rotateY(90deg) translateZ(90px);
+            background-color: rgba(16, 185, 129, 0.03);
+        }
+        
+        .cube-face-left {
+            transform: rotateY(-90deg) translateZ(90px);
+            background-color: rgba(16, 185, 129, 0.03);
+        }
+        
+        .cube-face-top {
+            transform: rotateX(90deg) translateZ(90px);
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+        
+        .cube-face-bottom {
+            transform: rotateX(-90deg) translateZ(90px);
+            background-color: rgba(16, 185, 129, 0.08);
+        }
+        
+        /* Экран 2: Возможности продукта */
+        #screen-2 {
+            background-color: var(--color-gray-light);
+        }
+        
+        .features-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: var(--spacing-lg);
+            max-width: 1000px;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .feature-card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 320px;
+            padding: var(--spacing-lg);
+            background-color: var(--color-white);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all var(--transition-medium);
+            border: 1px solid var(--color-gray);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.05);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            color: var(--color-accent);
+            height: 80px;
+            width: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .feature-title {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: 2px;
+            margin-bottom: var(--spacing-sm);
+            text-transform: uppercase;
+        }
+        
+        .feature-description {
+            font-weight: 300;
+            color: var(--color-gray-dark);
+        }
+        
+        /* Экран 3: Призыв к действию */
+        #screen-3 {
+            background-color: var(--color-white);
+        }
+        
+        .cta-headline {
+            font-family: var(--font-heading);
+            font-weight: 900;
+            font-size: 4rem;
+            letter-spacing: 5px;
+            text-align: center;
+            margin-bottom: var(--spacing-md);
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+        
+        @media (max-width: 768px) {
+            .cta-headline {
+                font-size: 3rem;
+                letter-spacing: 4px;
+            }
+        }
+        
+        .cta-subtitle {
+            font-weight: 300;
+            font-size: 1.2rem;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto var(--spacing-xl);
+            color: var(--color-gray-dark);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            justify-content: center;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .footer-text {
+            font-size: 0.8rem;
+            color: var(--color-gray-dark);
+            text-align: center;
+            margin-top: var(--spacing-xl);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-gray);
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .footer-link {
+            color: var(--color-black);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color var(--transition-fast);
+        }
+        
+        .footer-link:hover {
+            border-bottom: 1px solid var(--color-black);
+        }
+        
+        /* Анимации */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes rotateCube {
+            from {
+                transform: rotateX(-20deg) rotateY(0deg);
+            }
+            to {
+                transform: rotateX(-20deg) rotateY(360deg);
+            }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .screen {
+                padding: var(--spacing-md) var(--spacing-sm);
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-headline {
+                font-size: 2.5rem;
+            }
+            
+            .cta-headline {
+                font-size: 2.5rem;
+            }
+            
+            .features-container {
+                gap: var(--spacing-md);
+            }
+            
+            .feature-card {
+                min-width: 100%;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+        
+        /* Улучшения для Telegram WebApp */
+        .tg-body {
+            /* Специфичные стили для Telegram WebApp */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+    </style>
 </head>
+<body class="tg-body">
+    <div class="app-container">
+        <!-- Навигационные точки -->
+        <div class="nav-indicator">
+            <div class="nav-dots">
+                <div class="nav-dot active" data-screen="1"></div>
+                <div class="nav-dot" data-screen="2"></div>
+                <div class="nav-dot" data-screen="3"></div>
+            </div>
+        </div>
+        
+        <!-- Экран 1: Главный экран -->
+        <section id="screen-1" class="screen active">
+            <h1 class="hero-headline">ЭФФЕКТИВНОСТЬ. ПРОСТОТА. РЕЗУЛЬТАТ.</h1>
+            <p class="hero-subtitle">Инструмент для преобразования ваших рабочих процессов. Минималистичный дизайн, максимальная продуктивность.</p>
+            
+            <div class="product-visualization">
+                <div class="cube-container">
+                    <div class="cube-face cube-face-front">
+                        <i class="fas fa-bolt" style="font-size: 3rem; color: var(--color-accent);"></i>
+                    </div>
+                    <div class="cube-face cube-face-back">
+                        <i class="fas fa-infinity" style="font-size: 3rem; color: var(--color-black);"></i>
+                    </div>
+                    <div class="cube-face cube-face-right"></div>
+                    <div class="cube-face cube-face-left"></div>
+                    <div class="cube-face cube-face-top"></div>
+                    <div class="cube-face cube-face-bottom"></div>
+                </div>
+            </div>
+            
+            <button id="cta-start" class="btn btn-primary">Начать путь</button>
+        </section>
+        
+        <!-- Экран 2: Возможности продукта -->
+        <section id="screen-2" class="screen">
+            <h2 class="section-title">Почему это работает?</h2>
+            <p class="section-subtitle">Три фундаментальных принципа, которые делают наш инструмент уникальным</p>
+            
+            <div class="features-container">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Мгновенно</h3>
+                    <p class="feature-description">Мгновенный доступ ко всем функциям без задержек и ожидания загрузки.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3 class="feature-title">Без лишнего</h3>
+                    <p class="feature-description">Только необходимые инструменты. Ничего лишнего, что отвлекает от работы.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h3 class="feature-title">Для тебя</h3>
+                    <p class="feature-description">Адаптируется под ваш стиль работы и предпочтения для максимального комфорта.</p>
+                </div>
+            </div>
+            
+            <button id="cta-next" class="btn btn-primary">Продолжить</button>
+        </section>
+        
+        <!-- Экран 3: Призыв к действию -->
+        <section id="screen-3" class="screen">
+            <h2 class="cta-headline">Готов изменить правила игры?</h2>
+            <p class="cta-subtitle">Присоединяйтесь к тысячам пользователей, которые уже повысили свою продуктивность с нашим инструментом.</p>
+            
+            <div class="cta-buttons">
+                <button id="cta-primary" class="btn btn-primary">Создать аккаунт</button>
+                <button id="cta-secondary" class="btn btn-secondary">Узнать больше</button>
+            </div>
+            
+            <p class="footer-text">Нажимая кнопку, вы принимаете наши <a href="#" class="footer-link">Условия использования</a> и подтверждаете, что ознакомились с <a href="#" class="footer-link">Политикой конфиденциальности</a>.</p>
+        </section>
+    </div>
 
-<body>
-
-<div class="app">
-
-  <!-- TOP LEFT ICON -->
-  <div class="top-left-btn" onclick="goNext()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-      <line x1="3" y1="6" x2="21" y2="6"/>
-      <line x1="3" y1="12" x2="21" y2="12"/>
-      <line x1="3" y1="18" x2="21" y2="18"/>
-    </svg>
-  </div>
-
-  <!-- LOGO -->
-  <div class="logo">
-    <svg viewBox="0 0 65 28">
-      <rect width="65" height="28" rx="14" fill="rgba(255,255,255,0.25)"/>
-      <text x="32.5" y="18" text-anchor="middle" fill="white" font-size="10">
-        LOGO
-      </text>
-    </svg>
-  </div>
-
-  <div class="title">REMEMBER</div>
-
-  <div class="add-row">
-    <label class="add-photo">
-      <input type="file" accept="image/*" hidden onchange="photoAdded()">
-      <svg viewBox="0 0 24 24" stroke="white" stroke-width="2">
-        <line x1="12" y1="5" x2="12" y2="19"/>
-        <line x1="5" y1="12" x2="19" y2="12"/>
-      </svg>
-    </label>
-
-    <input class="memory-input" placeholder="Название воспоминания">
-  </div>
-
-  <div id="photoStatus" class="photo-status"></div>
-
-  <button class="save-btn" onclick="saveMoment()">Save this moment</button>
-
-  <div id="toast" class="toast">
-    <div class="toast-bg"></div>
-    <div class="toast-text">Ваше воспоминание сохранено</div>
-  </div>
-
-  <div class="footer-text">
-    save places and moments from real life
-  </div>
-
-</div>
-
-<script>
-function photoAdded() {
-  document.getElementById("photoStatus").innerText = "Фото добавлено";
-}
-
-function saveMoment() {
-  const toast = document.getElementById("toast");
-  toast.style.display = "block";
-  setTimeout(() => toast.style.display = "none", 2000);
-}
-
-function goNext() {
-  // Вместо alert лучше использовать Telegram WebApp метод
-  if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.showAlert("Следующая страница");
-  } else {
-    alert("Следующая страница");
-  }
-}
-
-// Адаптация для Telegram WebApp
-document.addEventListener('DOMContentLoaded', function() {
-  // Растягиваем на весь экран в Telegram WebView
-  if (window.Telegram && window.Telegram.WebApp) {
-    Telegram.WebApp.expand();
-    document.body.style.height = window.innerHeight + 'px';
-    
-    // Меняем цвет статус бара
-    Telegram.WebApp.setHeaderColor('#000000');
-    Telegram.WebApp.setBackgroundColor('#000000');
-  }
-  
-  // Предотвращаем масштабирование при фокусе на input
-  const inputs = document.querySelectorAll('input');
-  inputs.forEach(input => {
-    input.addEventListener('focus', () => {
-      window.scrollTo(0, 0);
-      document.body.style.height = window.innerHeight + 'px';
-    });
-  });
-});
-
-// Обработка изменения размера окна
-window.addEventListener('resize', function() {
-  document.body.style.height = window.innerHeight + 'px';
-});
-</script>
-
+    <script>
+        // Инициализация Telegram WebApp API
+        document.addEventListener('DOMContentLoaded', function() {
+            // Проверяем, запущено ли приложение в Telegram
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                // Инициализация Telegram WebApp
+                Telegram.WebApp.ready();
+                
+                // Расширяем приложение на всю высоту
+                Telegram.WebApp.expand();
+                
+                // Устанавливаем цвет фона для Telegram
+                Telegram.WebApp.setBackgroundColor('#FFFFFF');
+                
+                // Обработчик кнопки "Назад" в Telegram
+                Telegram.WebApp.BackButton.onClick(function() {
+                    navigateToPreviousScreen();
+                });
+                
+                // Показываем кнопку "Назад" на экранах 2 и 3
+                updateBackButtonVisibility();
+            }
+            
+            // Инициализация навигации
+            initNavigation();
+            
+            // Инициализация обработчиков событий
+            initEventListeners();
+        });
+        
+        // Текущий активный экран
+        let currentScreen = 1;
+        
+        // Инициализация навигации
+        function initNavigation() {
+            // Находим все точки навигации
+            const navDots = document.querySelectorAll('.nav-dot');
+            
+            // Добавляем обработчики кликов на точки навигации
+            navDots.forEach(dot => {
+                dot.addEventListener('click', function() {
+                    const screenNumber = parseInt(this.getAttribute('data-screen'));
+                    navigateToScreen(screenNumber);
+                });
+            });
+        }
+        
+        // Инициализация обработчиков событий
+        function initEventListeners() {
+            // Кнопка "Начать путь" на первом экране
+            document.getElementById('cta-start').addEventListener('click', function() {
+                navigateToScreen(2);
+            });
+            
+            // Кнопка "Продолжить" на втором экране
+            document.getElementById('cta-next').addEventListener('click', function() {
+                navigateToScreen(3);
+            });
+            
+            // Основная кнопка CTA на третьем экране
+            document.getElementById('cta-primary').addEventListener('click', function() {
+                // В реальном приложении здесь была бы регистрация
+                alert('Регистрация в приложении. В реальном приложении здесь будет форма регистрации.');
+                
+                // В Telegram можно открыть ссылку на регистрацию
+                if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                    Telegram.WebApp.openLink('https://example.com/register');
+                }
+            });
+            
+            // Вторичная кнопка на третьем экране
+            document.getElementById('cta-secondary').addEventListener('click', function() {
+                // Открываем ссылку с дополнительной информацией
+                if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                    Telegram.WebApp.openLink('https://example.com/learn-more');
+                } else {
+                    alert('Дополнительная информация о продукте. В реальном приложении здесь будет переход на страницу с деталями.');
+                }
+            });
+            
+            // Обработка свайпов для мобильных устройств
+            let touchStartX = 0;
+            let touchEndX = 0;
+            
+            document.body.addEventListener('touchstart', function(e) {
+                touchStartX = e.changedTouches[0].screenX;
+            });
+            
+            document.body.addEventListener('touchend', function(e) {
+                touchEndX = e.changedTouches[0].screenX;
+                handleSwipe();
+            });
+            
+            // Обработка свайпа
+            function handleSwipe() {
+                const swipeThreshold = 50; // минимальное расстояние свайпа
+                const swipeDistance = touchEndX - touchStartX;
+                
+                // Свайп влево - следующий экран
+                if (swipeDistance < -swipeThreshold && currentScreen < 3) {
+                    navigateToScreen(currentScreen + 1);
+                }
+                
+                // Свайп вправо - предыдущий экран
+                if (swipeDistance > swipeThreshold && currentScreen > 1) {
+                    navigateToScreen(currentScreen - 1);
+                }
+            }
+        }
+        
+        // Навигация к определенному экрану
+        function navigateToScreen(screenNumber) {
+            // Валидация номера экрана
+            if (screenNumber < 1 || screenNumber > 3) return;
+            
+            // Обновляем текущий экран
+            const previousScreen = currentScreen;
+            currentScreen = screenNumber;
+            
+            // Скрываем текущий активный экран
+            const currentActiveScreen = document.querySelector('.screen.active');
+            if (currentActiveScreen) {
+                currentActiveScreen.classList.remove('active');
+                
+                // Добавляем анимацию выхода
+                setTimeout(() => {
+                    currentActiveScreen.style.display = 'none';
+                }, 300);
+            }
+            
+            // Показываем новый экран
+            const newScreen = document.getElementById(`screen-${screenNumber}`);
+            if (newScreen) {
+                newScreen.style.display = 'flex';
+                
+                // Активируем экран с небольшой задержкой для плавности
+                setTimeout(() => {
+                    newScreen.classList.add('active');
+                }, 10);
+            }
+            
+            // Обновляем точки навигации
+            updateNavDots(screenNumber);
+            
+            // Обновляем видимость кнопки "Назад" в Telegram
+            updateBackButtonVisibility();
+            
+            // Прокручиваем к верху экрана
+            window.scrollTo(0, 0);
+        }
+        
+        // Навигация к предыдущему экрану
+        function navigateToPreviousScreen() {
+            if (currentScreen > 1) {
+                navigateToScreen(currentScreen - 1);
+            } else {
+                // Если мы на первом экране, закрываем приложение
+                if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                    Telegram.WebApp.close();
+                }
+            }
+        }
+        
+        // Обновление точек навигации
+        function updateNavDots(activeScreen) {
+            const navDots = document.querySelectorAll('.nav-dot');
+            
+            navDots.forEach(dot => {
+                const screenNumber = parseInt(dot.getAttribute('data-screen'));
+                
+                if (screenNumber === activeScreen) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+        
+        // Обновление видимости кнопки "Назад" в Telegram
+        function updateBackButtonVisibility() {
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                if (currentScreen > 1) {
+                    Telegram.WebApp.BackButton.show();
+                } else {
+                    Telegram.WebApp.BackButton.hide();
+                }
+            }
+        }
+        
+        // Обработка закрытия приложения
+        function setupAppClose() {
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp) {
+                // Можно добавить обработку события закрытия
+                Telegram.WebApp.onEvent('viewportChanged', function(e) {
+                    // Обработка изменения размера окна
+                });
+            }
+        }
+        
+        // Инициализация закрытия приложения
+        setupAppClose();
+    </script>
 </body>
 </html>
