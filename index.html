@@ -1,4 +1,341 @@
-:root {
+lumen-noir/
+├── public/
+├── src/
+│   ├── components/
+│   │   ├── CosmicBackground.tsx
+│   │   ├── MagicalInput.tsx
+│   │   ├── RitualCircle.tsx
+│   │   ├── StainedGlassGallery.tsx
+│   │   └── GothicButton.tsx
+│   ├── pages/
+│   │   ├── Observatory.tsx
+│   │   ├── AltarSettings.tsx
+│   │   └── HallOfVisions.tsx
+│   ├── styles/
+│   │   └── gothicTheme.css
+│   ├── types/
+│   │   └── index.ts
+│   ├── utils/
+│   │   └── animations.ts
+│   ├── App.tsx
+│   └── main.tsx
+
+{
+  "name": "lumen-noir",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@telegram-apps/sdk": "^1.0.0",
+    "framer-motion": "^10.16.0",
+    "three": "^0.160.0",
+    "@react-three/fiber": "^8.15.0",
+    "@react-three/drei": "^9.103.0",
+    "lucide-react": "^0.309.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "vite": "^5.0.0",
+    "typescript": "^5.2.0"
+  }
+import { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Points, PointMaterial } from '@react-three/drei';
+import * as random from 'maath/random';
+
+function StarField() {
+  const ref = useRef<any>();
+  
+  const sphere = random.inSphere(new Float32Array(5000), { radius: 1.5 });
+  
+  useFrame((state, delta) => {
+    if (ref.current) {
+      ref.current.rotation.x -= delta / 10;
+      ref.current.rotation.y -= delta / 15;
+    }
+  });
+
+  return (
+    <group rotation={[0, 0, Math.PI / 4]}>
+      <Points ref={ref} positions={sphere} stride={3} frustumCulled={false}>
+        <PointMaterial
+          transparent
+          color="#89CFF0"
+          size={0.002}
+          sizeAttenuation={true}
+          depthWrite={false}
+          opacity={0.4}
+        />
+      </Points>
+    </group>
+  );
+}
+
+export default function CosmicBackground() {
+  return (
+    <div className="cosmic-background">
+      <Canvas camera={{ position: [0, 0, 1] }}>
+        <StarField />
+      </Canvas>
+      <div className="gothic-ornament-overlay"></div>
+    </div>
+  );
+}
+    import { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Scroll, Sparkles } from 'lucide-react';
+
+const STYLE_KEYWORDS = [
+  'витражный свет',
+  'звёздная пыль',
+  'готическая архитектура',
+  'мистический туман',
+  'космический собор',
+  'древние руны',
+  'небесные сферы',
+  'бархатная тьма'
+];
+
+interface MagicalInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  selectedKeywords: string[];
+  onKeywordsChange: (keywords: string[]) => void;
+}
+
+export default function MagicalInput({ 
+  value, 
+  onChange, 
+  selectedKeywords, 
+  onKeywordsChange 
+}: MagicalInputProps) {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const toggleKeyword = (keyword: string) => {
+    const newKeywords = selectedKeywords.includes(keyword)
+      ? selectedKeywords.filter(k => k !== keyword)
+      : [...selectedKeywords, keyword];
+    onKeywordsChange(newKeywords);
+  };
+
+  return (
+    <div className="magical-input-container">
+      <div className="stone-arch-frame">
+        <div className="angel-statue">
+          <Sparkles className="angel-light" />
+        </div>
+        
+        <motion.div 
+          className="scroll-input-wrapper"
+          animate={isFocused ? { scale: 1.02 } : { scale: 1 }}
+          transition={{ type: "spring", stiffness: 300 }}
+        >
+          <Scroll className="scroll-icon" />
+          <textarea
+            className="ancient-scroll-input"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholder="Напишите ваше видение... Например: 'Мраморный андроид читает звёздные свитки в библиотеке, парящей в туманности'"
+            rows={5}
+          />
+          <div className="scroll-ends"></div>
+        </motion.div>
+
+        <div className="keywords-container">
+          <div className="keywords-label">Ключевые слова стиля:</div>
+          <div className="keywords-grid">
+            {STYLE_KEYWORDS.map((keyword) => (
+              <motion.button
+                key={keyword}
+                className={`keyword-pill ${selectedKeywords.includes(keyword) ? 'active' : ''}`}
+                onClick={() => toggleKeyword(keyword)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                {keyword}
+                {selectedKeywords.includes(keyword) && (
+                  <motion.div
+                    className="glow-effect"
+                    layoutId="glow"
+                    initial={false}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  />
+                )}
+              </motion.button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+            import { motion } from 'framer-motion';
+import { Hourglass, Music, Frame, BookOpen } from 'lucide-react';
+
+interface RitualCircleProps {
+  duration: number;
+  aspectRatio: string;
+  soundtrack: boolean;
+  genre: string;
+  onParamChange: (param: string, value: any) => void;
+  onGenerate: () => void;
+  isGenerating: boolean;
+}
+
+export default function RitualCircle({
+  duration,
+  aspectRatio,
+  soundtrack,
+  genre,
+  onParamChange,
+  onGenerate,
+  isGenerating
+}: RitualCircleProps) {
+  
+  const DURATION_OPTIONS = [10, 25, 45, 60];
+  const ASPECT_RATIOS = [
+    { value: '9:16', label: 'Витраж', icon: '🪟' },
+    { value: '1:1', label: 'Зеркало', icon: '🪞' },
+    { value: '21:9', label: 'Панорама', icon: '🎬' }
+  ];
+  const GENRES = [
+    { id: 'gothic-tale', label: 'Готическая сказка', icon: '🏰' },
+    { id: 'cosmic-elegy', label: 'Космическая элегия', icon: '🌌' },
+    { id: 'imperial-ruins', label: 'Руины империи', icon: '🪦' },
+    { id: 'sacral-symbolism', label: 'Сакральный символизм', icon: '✝️' }
+  ];
+
+  return (
+    <div className="ritual-circle-container">
+      <div className="circle-platform">
+        
+        {/* Центральная печать генерации */}
+        <motion.button
+          className="central-seal"
+          onClick={onGenerate}
+          disabled={isGenerating}
+          animate={isGenerating ? { rotate: 360 } : {}}
+          transition={isGenerating ? { 
+            rotate: { 
+              duration: 4, 
+              repeat: Infinity, 
+              ease: "linear" 
+            } 
+          } : {}}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <div className="seal-inner">
+            <div className="seal-symbols">
+              {isGenerating ? '🌀' : '⚡'}
+            </div>
+            <div className="seal-text">
+              {isGenerating ? 'Проявляется...' : 'Начать ритуал'}
+            </div>
+          </div>
+        </motion.button>
+
+        {/* Параметры по кругу */}
+        <div className="ritual-parameters">
+          
+          {/* Длительность */}
+          <div className="parameter-item" style={{ transform: 'rotate(0deg) translate(140px) rotate(-0deg)' }}>
+            <div className="parameter-icon">
+              <Hourglass />
+            </div>
+            <div className="parameter-controls">
+              {DURATION_OPTIONS.map((time) => (
+                <button
+                  key={time}
+                  className={`duration-option ${duration === time ? 'active' : ''}`}
+                  onClick={() => onParamChange('duration', time)}
+                >
+                  {time}s
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Соотношение сторон */}
+          <div className="parameter-item" style={{ transform: 'rotate(90deg) translate(140px) rotate(-90deg)' }}>
+            <div className="parameter-icon">
+              <Frame />
+            </div>
+            <div className="parameter-controls">
+              {ASPECT_RATIOS.map((ratio) => (
+                <button
+                  key={ratio.value}
+                  className={`aspect-option ${aspectRatio === ratio.value ? 'active' : ''}`}
+                  onClick={() => onParamChange('aspectRatio', ratio.value)}
+                  title={ratio.label}
+                >
+                  {ratio.icon}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Саундтрек */}
+          <div className="parameter-item" style={{ transform: 'rotate(180deg) translate(140px) rotate(-180deg)' }}>
+            <div className="parameter-icon">
+              <Music />
+            </div>
+            <div className="parameter-controls">
+              <button
+                className={`soundtrack-toggle ${soundtrack ? 'active' : ''}`}
+                onClick={() => onParamChange('soundtrack', !soundtrack)}
+              >
+                {soundtrack ? '🎵 Вкл' : '🔇 Выкл'}
+                <div className="toggle-description">Эмбиент-симфония</div>
+              </button>
+            </div>
+          </div>
+
+          {/* Жанр */}
+          <div className="parameter-item" style={{ transform: 'rotate(270deg) translate(140px) rotate(-270deg)' }}>
+            <div className="parameter-icon">
+              <BookOpen />
+            </div>
+            <div className="parameter-controls">
+              <select
+                className="genre-select"
+                value={genre}
+                onChange={(e) => onParamChange('genre', e.target.value)}
+              >
+                {GENRES.map((g) => (
+                  <option key={g.id} value={g.id}>
+                    {g.icon} {g.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Магический круг */}
+        <div className="magic-circle">
+          <div className="circle-layer-1"></div>
+          <div className="circle-layer-2"></div>
+          <div className="circle-layer-3"></div>
+          <div className="astronomical-symbols">
+            {['♇', '♆', '♅', '♄', '♃', '♂', '♁', '♀', '☿'].map((symbol, i) => (
+              <span key={i} style={{ transform: `rotate(${i * 40}deg)` }}>
+                {symbol}
+              </span>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+            :root {
   --deep-black: #0B0A10;
   --dark-indigo: #2A1B3D;
   --plum: #4A2545;
@@ -380,4 +717,14 @@ body {
     var(--ghost-purple), 
     var(--nebula-blue));
   border-radius: 4px;
+}
+            import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 }
