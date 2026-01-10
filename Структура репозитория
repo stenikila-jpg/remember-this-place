@@ -1,0 +1,37 @@
+luxury-marketplace/
+├── public/
+│   └── vite.svg
+├── src/
+│   ├── components/
+│   │   ├── Layout.tsx
+│   │   ├── Navigation.tsx
+│   │   ├── AdCard.tsx
+│   │   ├── Chip.tsx
+│   │   └── SkeletonGrid.tsx
+│   ├── pages/
+│   │   ├── SearchPage.tsx
+│   │   ├── FavoritesPage.tsx
+│   │   ├── AdsPage.tsx
+│   │   ├── MessagesPage.tsx
+│   │   ├── ProfilePage.tsx
+│   │   ├── AdDetails.tsx
+│   │   ├── CreateAdPage.tsx
+│   │   └── SubscriptionPage.tsx
+│   ├── store/
+│   │   ├── adsStore.ts
+│   │   └── themeStore.ts
+│   ├── types/
+│   │   └── index.ts
+│   ├── lib/
+│   │   └── utils.ts
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── .gitignore
+├── index.html
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+├── tsconfig.node.json
+├── vite.config.ts
+└── README.md
